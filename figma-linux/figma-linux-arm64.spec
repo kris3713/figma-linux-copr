@@ -1,5 +1,4 @@
 %global         full_name figma-linux
-%global         pkg_arch arm64
 %global         debug_package %{nil}
 
 Name:           figma-linux-arm64
@@ -10,7 +9,7 @@ Summary:        Figma-Linux is an unofficial Electron-based Figma desktop app fo
 License:        GPL-2.0
 URL:            https://github.com/Figma-Linux/figma-linux
 
-Source0:        https://github.com/Figma-Linux/figma-linux/releases/download/v%{version}/%{full_name}_%{version}_linux_%{pkg_arch}.zip
+Source0:        https://github.com/Figma-Linux/figma-linux/releases/download/v%{version}/%{full_name}_%{version}_linux_arm64.zip
 Source1:        https://raw.githubusercontent.com/Figma-Linux/figma-linux/master/resources/%{full_name}.desktop
 
 ExclusiveArch:  %arm64
