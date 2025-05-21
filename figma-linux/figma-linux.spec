@@ -11,6 +11,7 @@ URL:            https://github.com/Figma-Linux/figma-linux
 
 Source0:        https://github.com/Figma-Linux/figma-linux/releases/download/v%{version}/%{full_name}_%{version}_linux_amd64.zip
 Source1:        https://raw.githubusercontent.com/Figma-Linux/figma-linux/master/resources/%{full_name}.desktop
+Source2:        %{full_name}
 
 ExclusiveArch:  x86_64
 
@@ -38,7 +39,7 @@ Figma is the first interface design tool based in the browser, making it easier 
 %__install -Dm 0644 %{SOURCE1} -t %{buildroot}%{_datadir}/applications
 
 # Install the application binary
-%__ln_s /opt/%{full_name}/%{full_name} -t %{buildroot}%{_bindir}
+%__install -Dm 0755 %{SOURCE2} -t %{buildroot}%{_bindir}
 
 # Install application icons
 %__install -Dm 0644 %{buildroot}/opt/%{full_name}/icons/24x24.png %{buildroot}%{_datadir}/icons/hicolor/24x24/apps/%{full_name}.png
