@@ -9,3 +9,10 @@ To install this Copr repository simply run,
 ```txt
 dnf copr enable -y zliced13/figma-linux
 ```
+
+To install the `figma-linux` package, run
+
+```sh
+dnf install figma-linux
+# if you have an arrch64 system, install `figma-linux-arm64` instead
+```
