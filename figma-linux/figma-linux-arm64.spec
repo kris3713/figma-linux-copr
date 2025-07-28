@@ -1,3 +1,5 @@
+%global         __provides_exclude_from ^/opt/%{full_name}/.*$
+%global         __requires_exclude_from ^/opt/%{full_name}/.*$
 %global         full_name figma-linux
 %global         debug_package %{nil}
 
