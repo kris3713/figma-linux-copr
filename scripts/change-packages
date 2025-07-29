@@ -13,7 +13,7 @@ for v in (fd 'spec' "$script_dir/.." -t file --format '{}')
   set -l name (basename -s '.spec' $split_dir[-1])
 
   echo '--------------------------------------------'
-  echo 'https://github.com/FlawlessCasual17/figma-linux-copr.git'
+  echo 'https://github.com/kris3713/figma-linux-copr.git'
   echo 'master'
   echo $subdir
   echo "$name.spec"
@@ -21,7 +21,7 @@ for v in (fd 'spec' "$script_dir/.." -t file --format '{}')
   echo $webhook_rebuild
 
   copr-cli edit-package-scm \
-    --clone-url 'https://github.com/FlawlessCasual17/figma-linux-copr.git' \
+    --clone-url 'https://github.com/kris3713/figma-linux-copr.git' \
     --commit 'master' \
     --subdir $subdir \
     --spec "$name.spec" \
