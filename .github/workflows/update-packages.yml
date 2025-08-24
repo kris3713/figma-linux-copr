@@ -2,8 +2,8 @@ name: 'Update packages'
 
 on:
   schedule:
-    # Runs every minute, between 13:00 and 13:59 UTC
-    - cron: '* 13 * * *'
+    # Runs every three hours at 01:00, 04:00, 07:00, 10:00, 13:00, 16:00, 19:00, and 22:00 UTC daily.
+    - cron: '0 1,4,7,10,13,16,19,22 * * *'
 
   workflow_dispatch: # Allows manual triggering of the workflow
 
@@ -30,21 +30,12 @@ jobs:
           echo '> sudo apt update'
           sudo apt update &> /dev/null
           # Python already comes pre-installed so no need to install it again
-          echo '> sudo apt install -y fd-find sd fish'
-          sudo apt install -y fd-find sd fish
+          echo '> sudo apt install -y fd-find sd ripgrep fish'
+          sudo apt install -y fd-find sd ripgrep fish
 
+          # Using verbose flag to show the output of the command
           echo '> sudo ln -vs $(command -v fdfind) /usr/bin/fd'
           sudo ln -vs $(command -v fdfind) /usr/bin/fd
-
-          if ! command -v python &> /dev/null; then
-            echo '> sudo ln -vs $(command -v python3) /usr/bin/python'
-            sudo ln -vs $(command -v python3) /usr/bin/python
-          fi
-
-          if ! command -v pip &> /dev/null; then
-            echo '> sudo ln -vs $(command -v pip3)'
-            sudo ln -vs $(command -v pip3) /usr/bin/pip
-          fi
 
       - name: 'Update package versions'
         shell: bash
@@ -54,8 +45,8 @@ jobs:
           pip install uv
           echo '> cd ./scripts'
           cd ./scripts
-          echo '> uv venv'
-          uv venv
+          echo '> uv venv --python 3.13'
+          uv venv --python 3.13
           echo '> source ./.venv/bin/activate'
           source ./.venv/bin/activate
           echo '> uv pip install -r ./requirements.txt'
@@ -68,7 +59,7 @@ jobs:
 
           for i in $(fd 'update-script' .); do
             chmod +x $i
-            echo "Executing $i"; eval $i
+            echo "Executing $i"; $i
             chmod -x $i
             echo '---------------------------------------'
             echo '---------------------------------------'
@@ -88,7 +79,7 @@ jobs:
           echo '> git add -u'
           git add -u
           if [ -n "$(git status --porcelain)" ]; then
-            echo "> CURRENT_TIME=$(date +'%Y-%m-%d %H:%M:%S')"
+            echo "> CURRENT_TIME=\$(date +'%Y-%m-%d %H:%M:%S')"
             CURRENT_TIME=$(date +'%Y-%m-%d %H:%M:%S')
             echo '> git commit -m "bot: Updated packages at $CURRENT_TIME"'
             git commit -m "bot: Updated packages at $CURRENT_TIME"
