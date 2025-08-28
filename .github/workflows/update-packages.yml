@@ -23,47 +23,17 @@ jobs:
           repository: "${{ github.repository }}"
           token: "${{ env.GITHUB_TOKEN }}"
 
-      - name: 'Install helper programs'
-        shell: bash
-        run: |
-          echo '----- Installing helper programs -----'
-          echo '> sudo apt update'
-          sudo apt update &> /dev/null
-          # Python already comes pre-installed so no need to install it again
-          echo '> sudo apt install -y fd-find sd ripgrep fish'
-          sudo apt install -y fd-find sd ripgrep fish
-
-          # Using verbose flag to show the output of the command
-          echo '> sudo ln -vs $(command -v fdfind) /usr/bin/fd'
-          sudo ln -vs $(command -v fdfind) /usr/bin/fd
+      - name: 'Install Nix'
+        uses: cachix/install-nix-action@v31
 
       - name: 'Update package versions'
         shell: bash
         run: |
-          echo '----- Installing Python packages -----'
-          echo '> pip install uv'
-          pip install uv
-          echo '> cd ./scripts'
-          cd ./scripts
-          echo '> uv venv --python 3.13'
-          uv venv --python 3.13
-          echo '> source ./.venv/bin/activate'
-          source ./.venv/bin/activate
-          echo '> uv pip install -r ./requirements.txt'
-          uv pip install -r ./requirements.txt
-          echo '> cd ..'
-          cd ..
-
-          echo '---------------------------------------'
-          echo '---------------------------------------'
-
-          for i in $(fd 'update-script' .); do
-            chmod +x $i
-            echo "Executing $i"; $i
-            chmod -x $i
-            echo '---------------------------------------'
-            echo '---------------------------------------'
-          done
+          echo '----- Creating a new environment with helper programs -----'
+          echo '> nix flake update --verbose'
+          nix flake update --verbose
+          echo '> nix develop --command bash ./scripts/update-package-versions.sh'
+          nix develop --command bash ./scripts/update-package-versions.sh
 
       - name: 'Commit changes'
         shell: bash
@@ -78,11 +48,26 @@ jobs:
           git config --local user.email $EMAIL
           echo '> git add -u'
           git add -u
-          if [ -n "$(git status --porcelain)" ]; then
-            echo "> CURRENT_TIME=\$(date +'%Y-%m-%d %H:%M:%S')"
-            CURRENT_TIME=$(date +'%Y-%m-%d %H:%M:%S')
-            echo '> git commit -m "bot: Updated packages at $CURRENT_TIME"'
-            git commit -m "bot: Updated packages at $CURRENT_TIME"
+          # Get the list of staged files
+          STAGED_FILES=$(git diff --cached --name-only)
+
+          if [ -n "$STAGED_FILES" ]; then
+            echo "> commit_message=''"
+            commit_message=''
+
+            # Check if only flake.lock was updated
+            if [ "$STAGED_FILES" == 'flake.lock' ]; then
+              echo "> commit_message='bot: Updated \`flake.lock\`'"
+              commit_message='bot: Updated `flake.lock`'
+            else
+              echo "> CURRENT_TIME=\$(date +'%Y-%m-%d %H:%M:%S')"
+              CURRENT_TIME=$(date +'%Y-%m-%d %H:%M:%S')
+              echo '> commit_message="bot: Updated packages at $CURRENT_TIME"'
+              commit_message="bot: Updated packages at $CURRENT_TIME"
+            fi
+
+            echo '> git commit -m "$commit_message"'
+            git commit -m "$commit_message"
           fi
 
       - name: 'Push changes'
