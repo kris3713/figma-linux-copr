@@ -2,7 +2,7 @@
   description = "A flake for development and GitHub Actions";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*";
   };
 
   outputs =
