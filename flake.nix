@@ -13,19 +13,20 @@
 
     let
       system = "x86_64-linux";
-      legacyPackages = nixpkgs.legacyPackages;
-      pkgs = legacyPackages.${system};
+      pkgs = nixpkgs.legacyPackages.${system};
     in
     {
       # Define a devShell that provides all the required tools
       devShells.${system}.default = pkgs.mkShell {
         buildInputs = with pkgs; [
-          # rpm
-          python3
+          fish
           fd
+          # jq
+          python3
+          pixi
           sd
           ripgrep
-          fish
+          # yq-go
         ];
       };
     };
