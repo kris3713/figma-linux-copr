@@ -18,6 +18,7 @@ Patch0:         config_builder.json_diff.patch
 %ifarch %arm64
 BuildRequires:  python3 python3-distutils-extra
 BuildRequires:  gcc gcc-c++ make cmake libtool
+BuildRequires:  libX11-devel libsecret-devel
 %endif
 
 BuildRequires:  nodejs nodejs-npm
