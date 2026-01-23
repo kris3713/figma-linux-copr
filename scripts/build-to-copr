@@ -28,7 +28,7 @@ switch (count $argv)
       --subdir $name \
       --spec "$name.spec" \
       --enable-net 'on' \
-      'zliced13/YACR'
+      'zliced13/figma-linux'
 
   case '*'
     set_color red
