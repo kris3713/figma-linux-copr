@@ -17,6 +17,8 @@ Patch0:         config_builder.json_diff.patch
 
 BuildRequires:  nodejs nodejs-npm
 
+ExclusiveArch:  x86_64
+
 %description
 %summary
 
