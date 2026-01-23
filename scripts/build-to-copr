@@ -23,7 +23,7 @@ switch (count $argv)
     set -l name $argv[1]
 
     copr-cli buildscm \
-      --clone-url 'https://github.com/kris3713/YACR.git' \
+      --clone-url 'https://github.com/kris3713/figma-linux-copr.git' \
       --commit 'master' \
       --subdir $name \
       --spec "$name.spec" \
