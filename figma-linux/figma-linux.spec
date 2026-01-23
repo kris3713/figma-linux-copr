@@ -15,7 +15,7 @@ Source0:        %{url}/archive/refs/tags/v%{version}.tar.gz
 
 Patch0:         config_builder.json_diff.patch
 
-BuildRequires:  nodejs nodejs-npm
+BuildRequires:  nodejs nodejs-npm python3
 
 %description
 %summary
