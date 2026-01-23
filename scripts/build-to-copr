@@ -25,19 +25,7 @@ switch (count $argv)
     copr-cli buildscm \
       --clone-url 'https://github.com/kris3713/YACR.git' \
       --commit 'master' \
-      --subdir "packages/$name" \
-      --spec "$name.spec" \
-      --enable-net 'on' \
-      'zliced13/YACR'
-
-  case 2
-    set -l subdir $argv[1]
-    set -l name $argv[2]
-
-    copr-cli buildscm \
-      --clone-url 'https://github.com/kris3713/YACR.git' \
-      --commit 'master' \
-      --subdir "packages/$subdir" \
+      --subdir $name \
       --spec "$name.spec" \
       --enable-net 'on' \
       'zliced13/YACR'
