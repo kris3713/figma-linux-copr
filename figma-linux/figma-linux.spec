@@ -15,16 +15,6 @@ Source0:        %{url}/archive/refs/tags/v%{version}.tar.gz
 
 Patch0:         config_builder.json_diff.patch
 
-%ifarch %arm64
-BuildRequires:  python3 gcc gcc-c++ make cmake libtool
-BuildRequires:  libX11-devel libsecret-devel xz-devel
-BuildRequires:  libXScrnSaver-devel alsa-lib-devel
-BuildRequires:  libXtst-devel mesa-libgbm-devel
-BuildRequires:  libindicator-gtk3-devel libdbusmenu-gtk3-devel
-BuildRequires:  libdbusmenu-devel pam-devel glib2-devel
-BuildRequires:  libtool-ltdl-devel
-%endif
-
 BuildRequires:  nodejs nodejs-npm
 
 %description
@@ -41,14 +31,7 @@ mkdir -v ./.node_cache
 export npm_config_cache="$(readlink -f ./.node_cache)"
 
 # Install the dependencies
-%ifarch %arm64
-env NODE_ENV='dev' npm install --verbose --ignore-scripts
-
-./node_modules/.bin/node-gyp rebuild --directory ./node_modules/lzma-native
-./node_modules/.bin/node-gyp rebuild --directory ./node_modules/keytar
-%else
 env NODE_ENV='dev' npm install
-%endif
 
 # Generate important build files
 export NODE_ENV='production'
