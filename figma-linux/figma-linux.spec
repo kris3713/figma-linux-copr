@@ -20,6 +20,8 @@ BuildRequires:  python3 gcc gcc-c++ make cmake libtool
 BuildRequires:  libX11-devel libsecret-devel xz-devel
 BuildRequires:  libXScrnSaver-devel alsa-lib-devel
 BuildRequires:  libXtst-devel mesa-libgbm-devel
+BuildRequires:  libindicator-gtk3-devel libdbusmenu-gtk3-devel
+BuildRequires:  libdbusmenu-devel
 %endif
 
 BuildRequires:  nodejs nodejs-npm
