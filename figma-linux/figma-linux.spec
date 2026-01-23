@@ -22,6 +22,7 @@ BuildRequires:  libXScrnSaver-devel alsa-lib-devel
 BuildRequires:  libXtst-devel mesa-libgbm-devel
 BuildRequires:  libindicator-gtk3-devel libdbusmenu-gtk3-devel
 BuildRequires:  libdbusmenu-devel pam-devel glib2-devel
+BuildRequires:  libtool-ltdl-devel
 %endif
 
 BuildRequires:  nodejs nodejs-npm
@@ -39,8 +40,16 @@ BuildRequires:  nodejs nodejs-npm
 mkdir -v ./.node_cache
 export npm_config_cache="$(readlink -f ./.node_cache)"
 
+%ifarch %arm64
+env NODE_ENV='dev' npm install --verbose --ignore-scripts
+
+./node_modules/.bin/node-gyp rebuild --directory ./node_modules/lzma-native
+./node_modules/.bin/node-gyp rebuild --directory ./node_modules/keytar
+%else
+env NODE_ENV='dev' npm install
+%endif
+
 # Install the dependencies
-env NODE_ENV='dev' npm install --verbose
 
 # Generate important build files
 export NODE_ENV='production'
