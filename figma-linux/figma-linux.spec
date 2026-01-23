@@ -16,7 +16,8 @@ Source0:        %{url}/archive/refs/tags/v%{version}.tar.gz
 Patch0:         config_builder.json_diff.patch
 
 %ifarch %arm64
-BuildRequires:  python3 gcc gcc-c++ make cmake libtool
+BuildRequires:  python3 python3-distutils-extra
+BuildRequires:  gcc gcc-c++ make cmake libtool
 %endif
 
 BuildRequires:  nodejs nodejs-npm
