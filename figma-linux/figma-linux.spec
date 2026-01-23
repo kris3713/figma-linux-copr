@@ -15,6 +15,7 @@ Source0:        %{url}/archive/refs/tags/v%{version}.tar.gz
 
 Patch0:         config_builder.json_diff.patch
 
+# TODO: Make use of the electron package from terrapkgs
 BuildRequires:  nodejs nodejs-npm
 
 ExclusiveArch:  x86_64
