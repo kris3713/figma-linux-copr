@@ -13,7 +13,7 @@ for v in (fd 'spec' "$script_dir/.." -t file --format '{}')
   set -l name (basename -s '.spec' $split_dir[-1])
 
   echo '--------------------------------------------'
-  echo 'Clone URL: https://github.com/kris3713/YACR.git'
+  echo 'Clone URL: https://github.com/kris3713/figma-linux-copr.git'
   echo 'Commitish: master'
   echo "Subdir: $name"
   echo "Spec: $name.spec"
