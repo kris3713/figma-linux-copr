@@ -7,7 +7,8 @@ import os
 from typing import Any
 
 import requests
-from jsonpath_ng import JSONPath, parse
+from jsonpath_ng.jsonpath import JSONPath
+from jsonpath_ng.ext import parse
 
 
 def parse_json(url: str, regex_str: str, jsonpath_expr: str):
