@@ -1,6 +1,6 @@
 # figma-linux-copr
 
-This is a Copr repository for `figma-linux`, an unofficial Electron-based Figma desktop app for Linux.
+This is a Copr repository for [`figma-linux`](https://github.com/Figma-Linux/figma-linux), an unofficial Electron-based Figma desktop app for Linux.
 
 ## Installation Instructions
 
@@ -14,5 +14,4 @@ To install the `figma-linux` package, run
 
 ```sh
 dnf install figma-linux
-# aarch64 builds are no longer available.
 ```
