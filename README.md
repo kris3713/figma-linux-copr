@@ -14,5 +14,5 @@ To install the `figma-linux` package, run
 
 ```sh
 dnf install figma-linux
-# if you have an arrch64 system, install `figma-linux-arm64` instead
+# aarch64 builds are no longer available.
 ```
