@@ -40,6 +40,7 @@ BuildRequires:  nodejs nodejs-npm
 mkdir -v ./.node_cache
 export npm_config_cache="$(readlink -f ./.node_cache)"
 
+# Install the dependencies
 %ifarch %arm64
 env NODE_ENV='dev' npm install --verbose --ignore-scripts
 
@@ -48,8 +49,6 @@ env NODE_ENV='dev' npm install --verbose --ignore-scripts
 %else
 env NODE_ENV='dev' npm install
 %endif
-
-# Install the dependencies
 
 # Generate important build files
 export NODE_ENV='production'
