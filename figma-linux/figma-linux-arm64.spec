@@ -1,18 +1,19 @@
 %global         __provides_exclude_from ^/opt/%{full_name}/.*$
 %global         __requires_exclude_from ^/opt/%{full_name}/.*$
-%global         full_name figma-linux
+%global         real_name Figma-Linux
+%global         full_name %(echo %real_name | tr '[:upper:]' '[:lower:]')
 %global         debug_package %{nil}
 
-Name:           figma-linux-arm64
+Name:           %{full_name}-arm64
 Version:        0.11.5
 Release:        1%{?dist}
 Summary:        Figma-Linux is an unofficial Electron-based Figma desktop app for Linux.
 
 License:        GPL-2.0
-URL:            https://github.com/Figma-Linux/figma-linux
+URL:            https://github.com/%{real_name}/%{full_name}
 
-Source0:        https://github.com/Figma-Linux/figma-linux/releases/download/v%{version}/%{full_name}_%{version}_linux_arm64.zip
-Source1:        https://raw.githubusercontent.com/Figma-Linux/figma-linux/master/resources/%{full_name}.desktop
+Source0:        %{url}/releases/download/v%{version}/%{full_name}_%{version}_linux_arm64.zip
+Source1:        https://raw.githubusercontent.com/%{real_name}/%{full_name}/master/resources/%{full_name}.desktop
 
 ExclusiveArch:  %arm64
 
@@ -44,14 +45,14 @@ cp -a . %{buildroot}/opt/%{full_name}
 install -Dm 0644 %{SOURCE1} -t %{buildroot}%{_datadir}/applications
 
 # Create a symlink to the application binary
-ln -s /opt/figma-linux/figma-linux %{buildroot}%{_bindir}
+ln -s /opt/%{full_name}/%{full_name} %{buildroot}%{_bindir}
 
 # Install application icons
 for size in "${sizes[@]}"; do
-  install -Dm 0644 "$BUILD_DIR/icons/$size.png" \
+  install -Dm 0644 "./icons/$size.png" \
     "%{buildroot}%{_iconsdir}/hicolor/$size/apps/%{name}.png"
 done
-install -Dm 0644 "$BUILD_DIR/icons/scalable.svg" \
+install -Dm 0644 ./icons/scalable.svg \
   %{buildroot}%{_iconsdir}/hicolor/scalable/apps/%{name}.png
 
 %files
