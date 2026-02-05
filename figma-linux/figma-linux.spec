@@ -18,7 +18,11 @@ Patch0:         config_builder.json_diff.patch
 
 BuildRequires:  electron nodejs nodejs-npm
 %ifarch %arm64
-BuildRequires:  pixi
+BuildRequires:  python3 gcc gcc-c++ make cmake libtool
+BuildRequires:  libX11-devel libsecret-devel xz-devel libXScrnSaver-devel
+BuildRequires:  alsa-lib-devel libXtst-devel mesa-libgbm-devel
+BuildRequires:  libindicator-gtk3-devel libdbusmenu-gtk3-devel
+BuildRequires:  libdbusmenu-devel pam-devel glib2-devel libtool-ltdl-devel
 %endif
 
 # ExclusiveArch:  x86_64
@@ -54,17 +58,16 @@ export NPM_CONFIG_USERCONFIG="$(realpath ./user_npmrc)"
 export NPM_CONFIG_GLOBALCONFIG="$(realpath ./npmrc)"
 touch "$NPM_CONFIG_USERCONFIG" "$NPM_CONFIG_GLOBALCONFIG"
 
-%ifarch %arm64
-cp -a %SOURCE1 .
-eval "$(pixi shell-hook --shell bash)"
-
-# env npm_config_global='false' npm explore \
-#   npm/node_modules/@npmcli/run-script -g \
-#   -- npm install node-gyp@latest
-%endif
-
 # Install the dependencies
+%ifarch %arm64
+env NODE_ENV='dev' npm install --ignore-scripts
+
+NODE_GYP_PATH='./node_modules/.bin/node-gyp'
+"$NODE_GYP_PATH" rebuild --directory node_modules/lzma-native
+"$NODE_GYP_PATH" rebuild --directory node_modules/keytar
+%else
 env NODE_ENV='dev' npm install
+%endif
 
 # Generate important build files
 export NODE_ENV='production'
