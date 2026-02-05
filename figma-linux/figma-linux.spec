@@ -12,7 +12,6 @@ License:        GPL-2.0
 URL:            https://github.com/%{app_name}/%{name}
 
 Source0:        %{url}/archive/refs/tags/v%{version}.tar.gz
-Source1:        pixi.toml
 
 Patch0:         config_builder.json_diff.patch
 
@@ -63,8 +62,8 @@ touch "$NPM_CONFIG_USERCONFIG" "$NPM_CONFIG_GLOBALCONFIG"
 env NODE_ENV='dev' npm install --ignore-scripts
 
 NODE_GYP_PATH='./node_modules/.bin/node-gyp'
-"$NODE_GYP_PATH" rebuild --directory node_modules/lzma-native
-"$NODE_GYP_PATH" rebuild --directory node_modules/keytar
+"$NODE_GYP_PATH" rebuild --directory ./node_modules/keytar
+"$NODE_GYP_PATH" rebuild --directory ./node_modules/lzma-native
 %else
 env NODE_ENV='dev' npm install
 %endif
