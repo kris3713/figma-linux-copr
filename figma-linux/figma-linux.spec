@@ -16,15 +16,8 @@ Source0:        %{url}/archive/refs/tags/v%{version}.tar.gz
 Patch0:         config_builder.json_diff.patch
 
 BuildRequires:  electron nodejs nodejs-npm
-%ifarch %arm64
-BuildRequires:  python3 gcc gcc-c++ make cmake libtool
-BuildRequires:  libX11-devel libsecret-devel xz-devel libXScrnSaver-devel
-BuildRequires:  alsa-lib-devel libXtst-devel mesa-libgbm-devel
-BuildRequires:  libindicator-gtk3-devel libdbusmenu-gtk3-devel
-BuildRequires:  libdbusmenu-devel pam-devel glib2-devel libtool-ltdl-devel
-%endif
 
-# ExclusiveArch:  x86_64
+ExclusiveArch:  x86_64
 
 %description
 %summary
@@ -58,18 +51,7 @@ export NPM_CONFIG_GLOBALCONFIG="$(realpath ./npmrc)"
 touch ./user_npmrc ./npmrc
 
 # Install the dependencies
-%ifarch %arm64
-env NODE_ENV='dev' npm install --ignore-scripts
-
-NODE_GYP_PATH="$(realpath ./node_modules/.bin/node-gyp)"
-pushd ./node_modules/lzma-native
-"$NODE_GYP_PATH" rebuild --build-from-source
-popd
-# keytar does not exist
-# "$NODE_GYP_PATH" rebuild --directory ./node_modules/keytar
-%else
 env NODE_ENV='dev' npm install
-%endif
 
 # Generate important build files
 export NODE_ENV='production'
@@ -94,7 +76,7 @@ done
 install -d %{buildroot}%{_iconsdir}/hicolor/scalable/apps
 
 # Reusable constant
-BUILD_DIR=./build/installers/linux-unpacked
+BUILD_DIR='./build/installers/linux-unpacked'
 
 # Remove unneeded files in the build directory
 rm -r "$BUILD_DIR"/{usr,lib,AppRun} "$BUILD_DIR"/*.sh
