@@ -62,7 +62,7 @@ touch ./user_npmrc ./npmrc
 env NODE_ENV='dev' npm install --ignore-scripts
 
 NODE_GYP_PATH="$(realpath ./node_modules/.bin/node-gyp)"
-pushd https://github.com/kris3713/figma-linux-copr.git
+pushd ./node_modules/lzma-native
 "$NODE_GYP_PATH" rebuild --build-from-source
 popd
 # keytar does not exist
