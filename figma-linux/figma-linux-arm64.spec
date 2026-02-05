@@ -44,7 +44,7 @@ cp -a . %{buildroot}/opt/%{full_name}
 install -Dm 0644 %{SOURCE1} -t %{buildroot}%{_datadir}/applications
 
 # Create a symlink to the application binary
-ln_s /opt/figma-linux/figma-linux %{buildroot}%{_bindir}
+ln -s /opt/figma-linux/figma-linux %{buildroot}%{_bindir}
 
 # Install application icons
 for size in "${sizes[@]}"; do
