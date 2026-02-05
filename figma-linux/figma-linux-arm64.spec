@@ -38,6 +38,9 @@ for size in "${sizes[@]}"; do
 done
 install -d %{buildroot}%{_iconsdir}/hicolor/scalable/apps
 
+# Remove unneeded files in the build directory
+rm -r ./{usr,lib,AppRun} ./*.sh
+
 # Copy the application files to the application directory
 cp -a . %{buildroot}/opt/%{full_name}
 
@@ -54,6 +57,9 @@ for size in "${sizes[@]}"; do
 done
 install -Dm 0644 ./icons/scalable.svg \
   %{buildroot}%{_iconsdir}/hicolor/scalable/apps/%{name}.png
+
+# Remove unneeded files in the application directory
+rm -r %{buildroot}/opt/%{name}/icons
 
 %files
 /opt/%{full_name}
