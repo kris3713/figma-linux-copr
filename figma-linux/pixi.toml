@@ -5,4 +5,4 @@ channels = ["conda-forge"]
 [tasks]
 
 [dependencies]
-node-gyp = "latest"
+node-gyp = "*"
