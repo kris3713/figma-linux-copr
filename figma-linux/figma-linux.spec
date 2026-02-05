@@ -59,7 +59,7 @@ cp -a %SOURCE1 .
 eval "$(pixi shell-hook --shell bash)"
 
 env npm_config_global='false' npm explore \
-  /usr/lib/node_modules_22/npm/node_modules/@npmcli/run-script -g \
+  npm/node_modules/@npmcli/run-script -g \
   -- npm install node-gyp@latest
 %endif
 
