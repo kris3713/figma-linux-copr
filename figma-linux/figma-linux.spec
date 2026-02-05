@@ -16,6 +16,9 @@ Source0:        %{url}/archive/refs/tags/v%{version}.tar.gz
 Patch0:         config_builder.json_diff.patch
 
 BuildRequires:  electron nodejs nodejs-npm
+%ifarch %arm64
+BuildRequires:  python3
+%endif
 
 # ExclusiveArch:  x86_64
 
@@ -28,6 +31,12 @@ BuildRequires:  electron nodejs nodejs-npm
 
 
 %build
+%if %{?fedora} >= 44
+  mkdir -v ./extra_bin
+  ln -sv $(command -v node-22) ./extra_bin/node
+  export PATH="$PATH:$(realpath ./extra_bin)"
+%endif
+
 # Ensure nodejs does not download an electron executable
 export ELECTRON_SKIP_BINARY_DOWNLOAD=1
 export ELECTRON_OVERRIDE_DIST_PATH='%{_libdir}/electron'
