@@ -62,8 +62,8 @@ touch "$NPM_CONFIG_USERCONFIG" "$NPM_CONFIG_GLOBALCONFIG"
 env NODE_ENV='dev' npm install --ignore-scripts
 
 NODE_GYP_PATH='./node_modules/.bin/node-gyp'
-"$NODE_GYP_PATH" rebuild --directory ./node_modules/keytar
-"$NODE_GYP_PATH" rebuild --directory ./node_modules/lzma-native
+"$NODE_GYP_PATH" rebuild --build-from-source --directory ./node_modules/lzma-native
+# "$NODE_GYP_PATH" rebuild --directory ./node_modules/keytar
 %else
 env NODE_ENV='dev' npm install
 %endif
