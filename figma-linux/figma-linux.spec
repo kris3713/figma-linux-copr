@@ -15,10 +15,9 @@ Source0:        %{url}/archive/refs/tags/v%{version}.tar.gz
 
 Patch0:         config_builder.json_diff.patch
 
-# TODO: Make use of the electron package from terrapkgs
-BuildRequires:  nodejs nodejs-npm
+BuildRequires:  electron nodejs nodejs-npm
 
-ExclusiveArch:  x86_64
+# ExclusiveArch:  x86_64
 
 %description
 %summary
@@ -29,9 +28,14 @@ ExclusiveArch:  x86_64
 
 
 %build
-# Change the node cache dir to avoid errors in COPR's cloud environment
-mkdir -v ./.node_cache
-export npm_config_cache="$(readlink -f ./.node_cache)"
+# Ensure nodejs does not download an electron executable
+export ELECTRON_SKIP_BINARY_DOWNLOAD=1
+export ELECTRON_OVERRIDE_DIST_PATH='%{_libdir}/electron'
+
+# Change the node and electron cache dir to
+# avoid errors in COPR's cloud environment
+export npm_config_cache="$(realpath ./.node_cache)"
+# export ELECTRON_CACHE="$(realpath ./.electron_cache)"
 
 # Install the dependencies
 env NODE_ENV='dev' npm install
@@ -41,7 +45,8 @@ export NODE_ENV='production'
 npm run build
 
 # Build the application
-npm run builder
+npm run builder -- \
+  "-c.electronDist=$ELECTRON_OVERRIDE_DIST_PATH"
 
 
 %install
