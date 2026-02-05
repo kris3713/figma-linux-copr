@@ -55,14 +55,17 @@ export npm_config_cache="$(realpath ./.node_cache)"
 # user and global config
 export NPM_CONFIG_USERCONFIG="$(realpath ./user_npmrc)"
 export NPM_CONFIG_GLOBALCONFIG="$(realpath ./npmrc)"
-touch "$NPM_CONFIG_USERCONFIG" "$NPM_CONFIG_GLOBALCONFIG"
+touch ./user_npmrc ./npmrc
 
 # Install the dependencies
 %ifarch %arm64
 env NODE_ENV='dev' npm install --ignore-scripts
 
-NODE_GYP_PATH='./node_modules/.bin/node-gyp'
-"$NODE_GYP_PATH" rebuild --build-from-source --directory ./node_modules/lzma-native
+NODE_GYP_PATH="$(realpath ./node_modules/.bin/node-gyp)"
+pushd https://github.com/kris3713/figma-linux-copr.git
+"$NODE_GYP_PATH" rebuild --build-from-source
+popd
+# keytar does not exist
 # "$NODE_GYP_PATH" rebuild --directory ./node_modules/keytar
 %else
 env NODE_ENV='dev' npm install
