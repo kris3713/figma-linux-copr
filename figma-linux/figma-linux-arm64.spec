@@ -59,7 +59,7 @@ install -Dm 0644 ./icons/scalable.svg \
   %{buildroot}%{_iconsdir}/hicolor/scalable/apps/%{name}.png
 
 # Remove unneeded files in the application directory
-rm -r %{buildroot}/opt/%{name}/icons
+rm -r %{buildroot}/opt/%{full_name}/icons
 
 %files
 /opt/%{full_name}
