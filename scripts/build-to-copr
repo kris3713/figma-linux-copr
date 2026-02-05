@@ -30,6 +30,18 @@ switch (count $argv)
       --enable-net 'on' \
       'zliced13/figma-linux'
 
+  case 2
+    set -l subdir $argv[1]
+    set -l name $argv[2]
+
+    copr-cli buildscm \
+      --clone-url 'https://github.com/kris3713/figma-linux-copr.git' \
+      --commit 'master' \
+      --subdir $subdir \
+      --spec "$name.spec" \
+      --enable-net 'on' \
+      'zliced13/figma-linux'
+
   case '*'
     set_color red
     printf "ERROR: Invalid Usage!\n"
