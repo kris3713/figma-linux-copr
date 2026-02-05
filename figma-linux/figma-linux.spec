@@ -58,9 +58,9 @@ touch "$NPM_CONFIG_USERCONFIG" "$NPM_CONFIG_GLOBALCONFIG"
 cp -a %SOURCE1 .
 eval "$(pixi shell-hook --shell bash)"
 
-env npm_config_global='false' npm explore \
-  npm/node_modules/@npmcli/run-script -g \
-  -- npm install node-gyp@latest
+# env npm_config_global='false' npm explore \
+#   npm/node_modules/@npmcli/run-script -g \
+#   -- npm install node-gyp@latest
 %endif
 
 # Install the dependencies
