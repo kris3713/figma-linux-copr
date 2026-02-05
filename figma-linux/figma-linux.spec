@@ -12,12 +12,13 @@ License:        GPL-2.0
 URL:            https://github.com/%{app_name}/%{name}
 
 Source0:        %{url}/archive/refs/tags/v%{version}.tar.gz
+Source1:        pixi.toml
 
 Patch0:         config_builder.json_diff.patch
 
 BuildRequires:  electron nodejs nodejs-npm
 %ifarch %arm64
-BuildRequires:  python3
+BuildRequires:  pixi
 %endif
 
 # ExclusiveArch:  x86_64
@@ -30,10 +31,11 @@ BuildRequires:  python3
 %autosetup -p1 -n ./%{name}-%{version}
 
 
-%build
+%build -p %{_bindir}/bash
 %if %{?fedora} >= 44
   mkdir -v ./extra_bin
   ln -sv $(command -v node-22) ./extra_bin/node
+  ln -sv $(command -v npm-22) ./extra_bin/npm
   export PATH="$PATH:$(realpath ./extra_bin)"
 %endif
 
@@ -45,6 +47,21 @@ export ELECTRON_OVERRIDE_DIST_PATH='%{_libdir}/electron'
 # avoid errors in COPR's cloud environment
 export npm_config_cache="$(realpath ./.node_cache)"
 # export ELECTRON_CACHE="$(realpath ./.electron_cache)"
+
+# Change where npm stores its
+# user and global config
+export NPM_CONFIG_USERCONFIG="$(realpath ./user_npmrc)"
+export NPM_CONFIG_GLOBALCONFIG="$(realpath ./npmrc)"
+touch "$NPM_CONFIG_USERCONFIG" "$NPM_CONFIG_GLOBALCONFIG"
+
+%ifarch %arm64
+cp -a %SOURCE1 .
+eval "$(pixi shell-hook --shell bash)"
+
+env npm_config_global='false' npm explore \
+  /usr/lib/node_modules_22/npm/node_modules/@npmcli/run-script -g \
+  -- npm install node-gyp@latest
+%endif
 
 # Install the dependencies
 env NODE_ENV='dev' npm install
