@@ -59,7 +59,7 @@ export NODE_ENV='production'
 npm run build
 
 # Build the application
-npm run builder -- --linux --x64 \
+npm run builder -- --linux --x64 --publish never \
   "-c.electronDist=$ELECTRON_OVERRIDE_DIST_PATH" \
   "-c.electronVersion=$(cat $ELECTRON_OVERRIDE_DIST_PATH/version)"
 
