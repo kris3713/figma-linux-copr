@@ -27,7 +27,7 @@ ExclusiveArch:  x86_64
 %autosetup -p1 -n ./%{name}-%{version}
 
 
-%build -p %{_bindir}/bash
+%build
 %if %{?fedora} >= 44
   mkdir -v ./extra_bin
   ln -sv $(command -v node-22) ./extra_bin/node
@@ -42,7 +42,8 @@ export ELECTRON_OVERRIDE_DIST_PATH='%{_libdir}/electron'
 # Change the node and electron cache dir to
 # avoid errors in COPR's cloud environment
 export npm_config_cache="$(realpath ./.node_cache)"
-# export ELECTRON_CACHE="$(realpath ./.electron_cache)"
+export ELECTRON_CACHE="$(realpath ./.electron_cache)"
+export ELECTRON_BUILDER_CACHE="$(realpath ./.electron_builder_cache)"
 
 # Change where npm stores its
 # user and global config
@@ -58,8 +59,9 @@ export NODE_ENV='production'
 npm run build
 
 # Build the application
-npm run builder -- \
-  "-c.electronDist=$ELECTRON_OVERRIDE_DIST_PATH"
+npm run builder -- --linux --x64 \
+  "-c.electronDist=$ELECTRON_OVERRIDE_DIST_PATH" \
+  "-c.electronVersion=$(cat $ELECTRON_OVERRIDE_DIST_PATH/version)"
 
 
 %install

@@ -7,7 +7,7 @@
 Name:           %{full_name}-arm64
 Version:        0.11.5
 Release:        1%{?dist}
-Summary:        Figma-Linux is an unofficial Electron-based Figma desktop app for Linux.
+Summary:        %{real_name} is an unofficial Electron-based Figma desktop app for Linux.
 
 License:        GPL-2.0
 URL:            https://github.com/%{real_name}/%{full_name}
@@ -17,13 +17,13 @@ Source1:        https://raw.githubusercontent.com/%{real_name}/%{full_name}/mast
 
 ExclusiveArch:  %arm64
 
-# Requires:       # Might use this later
-
 %description
-Figma is the first interface design tool based in the browser, making it easier for teams to create software.
+%summary
+
 
 %prep
 %setup -q -c -n ./%{full_name}
+
 
 %install
 # Setup the buildroot
@@ -61,11 +61,13 @@ install -Dm 0644 ./icons/scalable.svg \
 # Remove unneeded files in the application directory
 rm -r %{buildroot}/opt/%{full_name}/icons
 
+
 %files
 /opt/%{full_name}
 %{_bindir}/%{full_name}
 %{_datadir}/applications/%{full_name}.desktop
 %{_iconsdir}/hicolor/*/apps/%{name}.png
+
 
 %changelog
 %autochangelog
